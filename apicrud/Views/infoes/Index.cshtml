@@ -1,0 +1,30 @@
+﻿@model IEnumerable<apicrud.Models.info>
+
+<h1>Info Table</h1>
+<a asp-action="Create" class="btn btn-success">Add New</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Business</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ID</td>
+            <td>@item.name</td>
+            <td>@item.business</td>
+            <td>
+                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> | 
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

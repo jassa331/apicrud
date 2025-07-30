@@ -1,0 +1,23 @@
+﻿@model InfoViewModel
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Info.name"></label>
+        <input asp-for="Info.name" class="form-control" />
+        <span asp-validation-for="Info.name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Info.business"></label>
+        <select asp-for="Info.business" class="form-control" asp-items="Model.NameList">
+            <option value="">-- Select --</option>
+        </select>
+        <span asp-validation-for="Info.business" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button><br ><br/>
+    <p>
+        <a asp-action="Index">back to page</a>
+    </p>
+</form>

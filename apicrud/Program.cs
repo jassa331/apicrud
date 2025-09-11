@@ -1,35 +1,81 @@
-using apicrud.Models;
+﻿using apicrud.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 1. DB Context
 builder.Services.AddDbContext<ClientDbcontext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("JDBS")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("JDBS")));
 
-// Add services to the container.
+// 2. JWT Settings
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var keyString = jwtSettings["Key"];
+
+if (string.IsNullOrEmpty(keyString))
+    throw new Exception("JWT Key is missing in appsettings.json!");
+        
+var key = Encoding.UTF8.GetBytes(keyString);
+
+// 3. Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var token = context.Request.Cookies["JWToken"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                context.Token = token;
+            }
+            return Task.CompletedTask;
+        }
+    };
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
+
+// 4. MVC & Session
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 5. Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapStaticAssets();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=infoes}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

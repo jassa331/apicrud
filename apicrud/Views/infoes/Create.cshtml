@@ -1,10 +1,18 @@
 ﻿@model InfoViewModel
 
 <form asp-action="Create" method="post">
+
+    <h1>Fill Your details</h1>
+    <br ><br/>
     <div class="form-group">
         <label asp-for="Info.name"></label>
         <input asp-for="Info.name" class="form-control" />
         <span asp-validation-for="Info.name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Info.age"></label>
+        <input asp-for="Info.age" class="form-control" />
+        <span asp-validation-for="Info.age" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -13,11 +21,31 @@
             <option value="">-- Select --</option>
         </select>
         <span asp-validation-for="Info.business" class="text-danger"></span>
+    </div> 
+    <div class="form-group">
+        <label asp-for="Info.Gender"></label>
+        <select asp-for="Info.Gender" class="form-control" asp-items="Model.CategoryList">
+            <option value="">-- Select --</option>
+        </select>
+        <span asp-validation-for="Info.Gender" class="text-danger"></span>
+    </div> <br><br />
+   @*  <div class="form-check">
+        <input asp-for="Info.IsActive" class="form-check-input" type="checkbox" />
+        <label asp-for="Info.IsActive" class="form-check-label"></label>
     </div>
-
-
-    <button type="submit" class="btn btn-primary">Save</button><br ><br/>
-    <p>
-        <a asp-action="Index">back to page</a>
-    </p>
+    <span asp-validation-for="Info.IsActive" class="text-danger"></span>
+ *@
+   @*  <div class="form-check">
+        <input asp-for="Info.IsDeleted" class="form-check-input" type="checkbox" />
+        <label asp-for="Info.IsDeleted" class="form-check-label"></label>
+    </div>
+    <span asp-validation-for="Info.IsDeleted" class="text-danger"></span>  *@
+    @* <div class="form-group">
+        <label asp-for="Info.Date"></label>
+        <input asp-for="Info.Date" class="form-control" />
+        <span asp-validation-for="Info.Date" class="text-danger"></span>
+    </div> *@
+       
+    <button type="submit" class="btn btn-primary">Save</button><br><br />
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </form>

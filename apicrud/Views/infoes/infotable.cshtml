@@ -1,0 +1,40 @@
+﻿@model IEnumerable<apicrud.Models.info>
+
+<h2>Info Table</h2>
+<a asp-action="Index" class="btn btn-primary">Back to List</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Business</th>
+            <th>Gender</th>
+            <th>IsActive</th>
+            <th>CreatedOn</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.name</td>
+                <td>@item.age</td>
+                <td>@item.BusinessName</td>
+                <td>@item.Gender</td>
+                <td>@(item.IsActive ? "✅" : "❌")</td>
+                <td>@item.CreatedOn</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary m-1">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary m-1">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-primary m-1">Delete</a>
+                </td>
+           
+              </tr>
+           
+        }
+    </tbody>
+</table>

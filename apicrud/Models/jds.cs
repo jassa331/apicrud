@@ -9,19 +9,32 @@ namespace apicrud.Models
 
         [NotMapped]
             public List<SelectListItem> NameList { get; set; }
-        }
+        [NotMapped]
+        public List<SelectListItem> CategoryList { get; set; }
+    }
     }
 namespace apicrud.Models
 {
     public class jds
     {
+        
+
         public int ID { get; set; }
 
         public string business { get; set; }
 
+       
+
 
     }
 }
+
+
+
+
+
+    
+
 
 //{
 //    [Key]

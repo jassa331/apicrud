@@ -1,30 +1,21 @@
 ﻿@model IEnumerable<apicrud.Models.info>
 
-<h1>Info Table</h1>
-<a asp-action="Create" class="btn btn-success">Add New</a>
+<!--
+<h3>Token:</h3>
+<p style="word-wrap: break-word;">@ViewBag.Token</p>
+-->
+<div style="border: 2px solid #ccc; padding: 20px; max-width: 400px; margin: 50px auto; border-radius: 10px;">
+    <h1 style="text-align: center; margin-bottom: 30px;">Dashboard</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Business</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.ID</td>
-            <td>@item.name</td>
-            <td>@item.business</td>
-            <td>
-                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> | 
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <div style="text-align: center;">
+        <a asp-action="Create" class="btn btn-dark equal-btn m-2">    Add New    </a><br><br />
+        <a asp-action="infotable" class="btn btn-dark equal-btn m-2">   InfoTable  </a><br><br />
+        <a asp-action="candidates" class="btn btn-dark equal-btn m-2">Deleted Persons</a><br><br />
+
+        <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger equal-btn m-2">    Logout     </button>
+        </form>
+    </div>
+</div>
+
+

@@ -12,9 +12,25 @@ namespace apicrud.Models
 
         [Required]
         public string name { get; set; }
+        [Required]
+        public int age { get; set; }
 
         [Required]
         public int business { get; set; }
+
+        [NotMapped]
+        public string BusinessName { get; set; }
+
+        [Required]
+        public string Gender { get; set; }
+        public bool IsActive { get; set; } = true;
+
+        public bool IsDeleted { get; set; } = false;  
+        [Required]
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? UpdateOn { get; set; }
+
+
     }
 }
 

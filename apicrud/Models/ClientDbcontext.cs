@@ -8,8 +8,18 @@ namespace apicrud.Models
         {
             
         }
-        public DbSet<info> info { get; set; }
+        public DbSet<info> infoo { get; set; }
         public DbSet<jds> jds { get; set; }
+        public DbSet<KDS> KDS { get; set; }
+
+        public DbSet<login> Users { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<login>().ToTable("Users");
+        //}
+
+
 
     }
 

@@ -1,0 +1,47 @@
+﻿<h1> UpdateOn  </h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Business</th>
+            <th>Gender</th>
+            <th>IsDeleted</th>
+            <th>CreatedOn</th>
+            <th>UpdateOn </th>
+
+
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.name</td>
+                <td>@item.age</td>
+                <td>@item.BusinessName</td>
+                <td>@item.Gender</td>
+                <td>
+                @(item.IsDeleted ? "❌" : "✅")
+                </td>
+                <td>
+                    @item.CreatedOn
+                </td>
+                <td>
+                    @item.UpdateOn
+                </td>
+
+
+        </tr>
+            
+        }
+
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+
+        
+    </tbody>
+</table>

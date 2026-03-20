@@ -28,7 +28,7 @@ public class AccountController : Controller
     {
         string encryptedPassword = EncryptionHelper.Encrypt(model.Password);
         model.Password = encryptedPassword;
-        _context.Users.Add(model);
+        _context.Userss.Add(model);
      
        
             try
@@ -40,7 +40,7 @@ public class AccountController : Controller
                 Console.WriteLine(ex.InnerException?.Message);
             }
 
-        _context.Users.Add(model);
+        _context.Userss.Add(model);
         try
         {
             _context.SaveChanges();
@@ -72,7 +72,7 @@ public class AccountController : Controller
             return View("Failure"); 
         }
 
-        var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
+        var user = _context.Userss.FirstOrDefault(x => x.Email == model.Email);
 
         if (user != null)
         {
@@ -87,7 +87,7 @@ public class AccountController : Controller
                 {
                     HttpOnly = true,
                     Secure = false,
-                    Expires = DateTimeOffset.UtcNow.AddSeconds(150)
+                    Expires = DateTimeOffset.UtcNow.AddSeconds(150000)
                 });
 
                 return RedirectToAction("Index", "infoes");

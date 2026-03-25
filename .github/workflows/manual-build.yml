@@ -27,8 +27,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Restore dependencies
-        run: dotnet restore
-        working-directory: ./apicrud
+        run: dotnet restore apicrud/apicrud.csproj
 
 
   build:
@@ -36,8 +35,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Build project
-        run: dotnet build --configuration Release
-        working-directory: ./apicrud
+        run: dotnet build apicrud/apicrud.csproj --configuration Release
 
 
   publish:
@@ -45,8 +43,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Publish project
-        run: dotnet publish -c Release -o publish
-        working-directory: ./apicrud
+        run: dotnet publish apicrud/apicrud.csproj -c Release -o publish
 
 
   deploy:
@@ -55,7 +52,7 @@ jobs:
     steps:
       - name: Run project
         run: |
-          Start-Process dotnet -ArgumentList "apicrud/publish/apicrud.dll --urls=http://serviceproazurefunction.runasp.net/"
+          Start-Process dotnet -ArgumentList "publish/apicrud.dll --urls=http://serviceproazurefunction.runasp.net/"
 
       - name: Wait for app
         run: Start-Sleep -Seconds 15

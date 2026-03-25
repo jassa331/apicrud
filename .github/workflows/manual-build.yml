@@ -1,0 +1,34 @@
+name: Manual Build & Health Check
+
+on:
+  workflow_dispatch:   # This enables "Run workflow" button
+
+jobs:
+  build:
+    runs-on: windows-latest   # ASP.NET MVC needs Windows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x'   # change if your project uses another version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      - name: Run project (background)
+        run: |
+          start /B dotnet run --urls=http://localhost:5000
+
+      - name: Wait for app to start
+        run: timeout /t 10
+
+      - name: Health Check
+        run: |
+          curl http://localhost:5000/health || exit 1

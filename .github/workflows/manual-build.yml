@@ -1,4 +1,4 @@
-name: Professional CI/CD Pipeline
+name: Parallel CI/CD Pipeline
 
 on:
   workflow_dispatch:
@@ -21,25 +21,25 @@ jobs:
           dotnet-version: '6.0.x'
 
   restore:
-    needs: setup-dotnet
+    needs: prepare
     runs-on: windows-latest
     steps:
       - name: Restore Dependencies
         run: dotnet restore **/*.csproj
 
   build:
-    needs: restore
+    needs: [setup-dotnet, restore]
     runs-on: windows-latest
     steps:
       - name: Build Project
-        run: dotnet build **/*.csproj --configuration Release --no-restore
+        run: dotnet build **/*.csproj --configuration Release
 
   test:
     needs: build
     runs-on: windows-latest
     steps:
       - name: Run Tests
-        run: dotnet test **/*.csproj --no-build
+        run: dotnet test **/*.csproj
 
   publish:
     needs: test
@@ -48,21 +48,10 @@ jobs:
       - name: Publish Project
         run: dotnet publish **/*.csproj -c Release -o publish
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: published-app
-          path: publish
-
   deploy:
     needs: publish
     runs-on: windows-latest
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: published-app
-
       - name: Start Application
         run: |
           Start-Process dotnet -ArgumentList "publish/apicrud.dll"
@@ -71,13 +60,12 @@ jobs:
     needs: deploy
     runs-on: windows-latest
     steps:
-      - name: Wait for App
+      - name: Wait
         run: Start-Sleep -Seconds 15
 
       - name: Health Check
         run: |
           $response = Invoke-WebRequest http://serviceproazurefunction.runasp.net/health -UseBasicParsing
           if ($response.StatusCode -ne 200) {
-            Write-Error "Health check failed"
             exit 1
           }

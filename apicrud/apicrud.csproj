@@ -20,7 +20,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
-    <PackageReference Include="Sitecore.FakeDb" Version="2.0.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.0" />
     <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0" />
   </ItemGroup>

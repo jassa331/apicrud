@@ -12,7 +12,7 @@ namespace apicrud.Models
         public DbSet<jds> jds { get; set; }
         public DbSet<KDS> KDS { get; set; }
 
-        public DbSet<login> Users { get; set; }
+        public DbSet<login> Userss { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

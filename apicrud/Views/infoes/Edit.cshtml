@@ -1,64 +1,116 @@
 ﻿@model InfoViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    Layout = null;
 }
 
-<h1>Edit</h1>
+<!DOCTYPE html>
+<html>
+<head>
 
-<h4>info</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
+    <title>Edit User</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+
+        body {
+            background: #f6f7fb;
+            font-family: Segoe UI;
+        }
+
+        .form-card {
+            width: 650px;
+            margin: auto;
+            margin-top: 80px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .form-title {
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="form-card">
+
+        <h3 class="form-title">Edit User Details</h3>
+
         <form asp-action="Edit" method="post">
-            @* Hidden ID field *@
+
             <input type="hidden" asp-for="Info.ID" />
-             
-            <div class="form-group">
-                <label asp-for="Info.name" class="control-label"></label>
-                <input asp-for="Info.name" class="form-control" />
-                <span asp-validation-for="Info.name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Info.age" class="control-label"></label>
-                <input asp-for="Info.age" class="form-control" />
-                <span asp-validation-for="Info.age" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Info.business" class="control-label"></label>
-                <select asp-for="Info.business" class="form-control" asp-items="Model.NameList">
-                    <option value="">-- Select --</option>
-                </select>
-                <span asp-validation-for="Info.business" class="text-danger"></span>
-                <div class="form-group">
-                    <label asp-for="Info.Gender" class="control-label"></label>
-                    <select asp-for="Info.Gender" class="form-control" asp-items="Model.CategoryList">
-                        <option value="">-- Select --</option>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Info.name" class="form-label"></label>
+
+                    <input asp-for="Info.name" class="form-control" />
+
+                    <span asp-validation-for="Info.name" class="text-danger"></span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Info.age" class="form-label"></label>
+
+                    <input asp-for="Info.age" class="form-control" />
+
+                    <span asp-validation-for="Info.age" class="text-danger"></span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Info.business" class="form-label"></label>
+
+                    <select asp-for="Info.business" class="form-select" asp-items="Model.NameList">
+
+                        <option value="">Select Business</option>
+
                     </select>
+
+                    <span asp-validation-for="Info.business" class="text-danger"></span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Info.Gender" class="form-label"></label>
+
+                    <select asp-for="Info.Gender" class="form-select" asp-items="Model.CategoryList">
+
+                        <option value="">Select Gender</option>
+
+                    </select>
+
                     <span asp-validation-for="Info.Gender" class="text-danger"></span>
-                @*     <div class="form-check">
-                        <input asp-for="Info.IsActive" class="form-check-input" type="checkbox" />
-                        <label asp-for="Info.IsActive" class="form-check-label"></label>
-                    </div>
-                    <span asp-validation-for="Info.IsActive" class="text-danger"></span>
-                    <div class="form-check">
-                        <input asp-for="Info.IsDeleted" class="form-check-input" type="checkbox" />
-                        <label asp-for="Info.IsDeleted" class="form-check-label"></label>
-                    </div>
-                    <span asp-validation-for="Info.IsDeleted" class="text-danger"></span>
-                </div> *@
 
-            <div class="form-group mt-3">
-                 <input type="submit" value="Update" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                </div>
 
-               
             </div>
-        </form>
-    </div>
-</div>
 
-@* <form asp-action="Index" method="get" class="mt-2">
-    <button type="submit" class="btn btn-secondary">Back</button>
-</form> *@
+            <div class="mt-4">
+
+                <button type="submit" class="btn btn-primary">Update</button>
+
+                <a asp-action="Dashboard" class="btn btn-secondary">Back</a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+name: Manual Build & Health Check
+
+on:
+  workflow_dispatch:   # Manual trigger button
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x'   # change if needed
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      - name: Publish project
+        run: dotnet publish -c Release -o publish
+
+      - name: Run project (background)
+        run: |
+          Start-Process dotnet -ArgumentList "publish/apicrud.dll --urls=http://serviceproazurefunction.runasp.net/"
+
+      - name: Wait for app to start
+        run: Start-Sleep -Seconds 15
+
+      - name: Health Check (retry)
+        run: |
+          $maxRetries = 5
+          $retryDelay = 5
+          $success = $false
+
+          for ($i = 1; $i -le $maxRetries; $i++) {
+            try {
+              Write-Host "Attempt {i}: Checking health..."
+              $response = Invoke-WebRequest http://serviceproazurefunction.runasp.net/health -UseBasicParsing
+              if ($response.StatusCode -eq 200) {
+                Write-Host "Health check passed!"
+                $success = $true
+                break
+              }
+            } catch {
+              Write-Host "Health check failed. Retrying in $retryDelay seconds..."
+              Start-Sleep -Seconds $retryDelay
+            }
+          }
+
+          if (-not $success) {
+            Write-Error "Health check failed after multiple attempts."
+            exit 1
+          }

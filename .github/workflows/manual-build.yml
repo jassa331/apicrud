@@ -1,50 +1,66 @@
-name: Manual Build & Health Check
+name: Professional CI/CD Pipeline
 
 on:
-  workflow_dispatch:
+  workflow_dispatch
 
 jobs:
 
   prepare:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
+  setup-dotnet:
+    needs: prepare
+    runs-on: windows-latest
+    steps:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
 
-
-  build:
-    needs: prepare
+  restore:
+    needs: setup-dotnet
     runs-on: windows-latest
     steps:
-      - name: Restore dependencies
+      - name: Restore Dependencies
         run: dotnet restore
 
-      - name: Build project
+  build:
+    needs: restore
+    runs-on: windows-latest
+    steps:
+      - name: Build Project
         run: dotnet build --configuration Release
 
-
-  upload_results:
+  test:
     needs: build
     runs-on: windows-latest
     steps:
-      - name: Publish project
-        run: dotnet publish -c Release -o publish
+      - name: Run Tests
+        run: dotnet test
 
-
-  cleanup:
-    needs: upload_results
+  publish:
+    needs: test
     runs-on: windows-latest
     steps:
-      - name: Run project
-        run: |
-          Start-Process dotnet -ArgumentList "publish/apicrud.dll --urls=http://serviceproazurefunction.runasp.net/"
+      - name: Publish Project
+        run: dotnet publish -c Release -o publish
 
-      - name: Wait for app to start
+  deploy:
+    needs: publish
+    runs-on: windows-latest
+    steps:
+      - name: Start App
+        run: |
+          Start-Process dotnet -ArgumentList "publish/apicrud.dll"
+
+  health-check:
+    needs: deploy
+    runs-on: windows-latest
+    steps:
+      - name: Wait for app
         run: Start-Sleep -Seconds 15
 
       - name: Health Check

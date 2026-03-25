@@ -90,7 +90,7 @@ public class AccountController : Controller
                     Expires = DateTimeOffset.UtcNow.AddSeconds(150000)
                 });
 
-                return RedirectToAction("Index", "infoes");
+                return RedirectToAction("Dashboard", "infoes");
             }
         }
 

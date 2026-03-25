@@ -1,60 +1,96 @@
 ﻿@model apicrud.Models.info
 
 @{
-    ViewData["Title"] = "Delete";
+    Layout = null;
 }
 
-<h1>Delete</h1>
+<!DOCTYPE html>
+<html>
+<head>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>info</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.age)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.age)
-        </dd>
-         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class="col-sm-2">Business</dt>
-        <dd class="col-sm-10">@Model.BusinessName</dd>
-    </dl>
-    
-    @* <dt class="col-sm-2"><dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.IsActive)
-    </dt> *@
-   @*  <dd class="col-sm-10">
-        <input asp-for="IsActive" class="form-check-input" type="checkbox" /> *@
-    <input type="hidden" asp-for="IsDeleted" />
-  
-    @* </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Date)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Date)
-    </dd>
- *@
-        
-       
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ID" />
-        <input type="hidden" asp-for="IsDeleted" />
-        <input type="submit" value="Delete" class="btn btn-primary" /> |
-        <a asp-action="Index" class="btn btn-primary">Back to List</a>
-    </form>
-</div>
+    <title>Delete User</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+
+        body {
+            background: #f6f7fb;
+            font-family: Segoe UI;
+        }
+
+        .delete-card {
+            width: 600px;
+            margin: auto;
+            margin-top: 80px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .warning {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="delete-card">
+
+        <h3 class="mb-3 text-danger">Delete Record</h3>
+
+        <div class="warning">
+            ⚠ Are you sure you want to delete this user?
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Name</div>
+            <div class="col-8">@Model.name</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Age</div>
+            <div class="col-8">@Model.age</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Gender</div>
+            <div class="col-8">@Model.Gender</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Business</div>
+            <div class="col-8">@Model.BusinessName</div>
+        </div>
+
+        <form asp-action="Delete">
+
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="IsDeleted" />
+
+            <div class="mt-4">
+
+                <button type="submit" class="btn btn-danger">Delete</button>
+
+                <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

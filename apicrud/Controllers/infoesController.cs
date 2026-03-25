@@ -51,7 +51,26 @@ namespace apicrud.Controllers
             return View(data); 
         }
 
+        public IActionResult Dashboard()
+        {
+            var data = _context.infoo
+                .Join(_context.jds,
+                i => i.business,
+                j => j.ID,
+                (i, j) => new info
+                {
+                    ID = i.ID,
+                    name = i.name,
+                    age = i.age,
+                    Gender = i.Gender,
+                    business = i.business,
+                    BusinessName = j.business,
+                    IsActive = i.IsActive,
+                    CreatedOn = i.CreatedOn
+                }).ToList();
 
+            return View(data);
+        }
         // GET: infoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -119,7 +138,7 @@ namespace apicrud.Controllers
             //model.NameList = nameList.Select(c => new SelectListItem //{ //    Value = c.ID.ToString(), //    Text = c.business//}).ToList();              
             _context.infoo.Add(model.Info);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Dashboard));
 
 
         }
@@ -193,7 +212,7 @@ else
             {
                 _context.Update(model.Info);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Dashboard));
             }
         }
         //public async Task<IActionResult> Delete(int? id)
@@ -281,7 +300,7 @@ else
                 //    info.Date = nu
                 //}
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Dashboard));
             }
         
         //private bool infoExists(int id)

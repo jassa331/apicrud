@@ -1,53 +1,115 @@
 ﻿@model apicrud.Models.info
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = null;
 }
 
-<h1>Details</h1>
+<!DOCTYPE html>
+<html>
+<head>
 
-<div>
-    <h4>info</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.age)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.age)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        </dd>
-        <dt class="col-sm-2">Business</dt>
-        <dd class="col-sm-10">@Model.BusinessName</dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-      @*   <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsDeleted) *@
-            <input type="hidden" asp-for="CreatedOn" />
+    <title>User Details</title>
 
-    </dl>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-primary">Edit</a> |
-    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-</div>
+    <style>
+
+        body {
+            background: #f6f7fb;
+            font-family: Segoe UI;
+        }
+
+        .details-card {
+            width: 600px;
+            margin: auto;
+            margin-top: 80px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .status-active {
+            background: #d1f5e1;
+            color: #0f8a5f;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .status-inactive {
+            background: #ffd6d6;
+            color: #c20000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="details-card">
+
+        <h3 class="mb-4">User Details</h3>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Name</div>
+            <div class="col-8">@Model.name</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Age</div>
+            <div class="col-8">@Model.age</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Gender</div>
+            <div class="col-8">@Model.Gender</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Business</div>
+            <div class="col-8">@Model.BusinessName</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Status</div>
+            <div class="col-8">
+
+                @if (Model.IsActive)
+                {
+                    <span class="status-active">Active</span>
+                }
+                else
+                {
+                    <span class="status-inactive">Inactive</span>
+                }
+
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-4 label">Created On</div>
+            <div class="col-8">@Model.CreatedOn?.ToString("dd MMM yyyy")</div>
+        </div>
+
+        <div class="mt-4">
+
+            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Edit</a>
+
+            <a asp-action="Dashboard" class="btn btn-secondary">Back</a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

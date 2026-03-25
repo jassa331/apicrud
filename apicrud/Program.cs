@@ -63,9 +63,9 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-}
+}app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
+app.MapGet("/health", () => Results.Ok("Healthy"));
 app.UseStaticFiles();
 
 app.UseRouting();

@@ -40,7 +40,7 @@ jobs:
 
           for ($i = 1; $i -le $maxRetries; $i++) {
             try {
-              Write-Host "Attempt $i: Checking health..."
+              Write-Host "Attempt {i}: Checking health..."
               $response = Invoke-WebRequest http://serviceproazurefunction.runasp.net/health -UseBasicParsing
               if ($response.StatusCode -eq 200) {
                 Write-Host "Health check passed!"

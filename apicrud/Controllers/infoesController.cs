@@ -21,6 +21,40 @@ namespace apicrud.Controllers
         {
             _context = context;
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InsertBussinessProducts(BussinessProducts product)
+        {
+            if (ModelState.IsValid)
+            {
+                product.createdat = DateTime.Now;
+
+                _context.BussinessProducts.Add(product);
+                _context.SaveChanges();
+
+                return RedirectToAction("Dashboard");
+            }
+
+            return View(product);
+        }
+
+        public IActionResult InsertBussinessProducts()
+        {
+            var model = new BussinessProducts
+            {
+                createdat = DateTime.Now,
+                isactive = true,
+                isarchived = false
+            };
+
+            return View(model);
+        }
+
+
+
+
         public IActionResult Index()
         {
             string token = Request.Cookies["JWToken"];
@@ -106,6 +140,7 @@ namespace apicrud.Controllers
             return View(info);
         }
 
+    
 
 
         public IActionResult Create()

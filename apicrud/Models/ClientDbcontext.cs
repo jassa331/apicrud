@@ -13,6 +13,7 @@ namespace apicrud.Models
         public DbSet<KDS> KDS { get; set; }
 
         public DbSet<login> Userss { get; set; }
+        public DbSet<BussinessProducts> BussinessProducts { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

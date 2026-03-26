@@ -69,6 +69,13 @@ namespace apicrud.Controllers
                     CreatedOn = i.CreatedOn
                 }).ToList();
 
+            foreach (var item in data)
+            {
+                item.name = AesEncryptionHelper.Decrypt(item.name);
+                item.Gender = AesEncryptionHelper.Decrypt(item.Gender);
+
+            }
+
             return View(data);
         }
         // GET: infoes/Details/5
@@ -130,17 +137,18 @@ namespace apicrud.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InfoViewModel model)
         {
-            var nameList = _context.jds.ToList();
-            var categoryList = _context.KDS.ToList();
             model.Info.CreatedOn = DateTime.Now;
-            model.Info.IsActive = true; 
+            model.Info.IsActive = true;
 
-            //model.NameList = nameList.Select(c => new SelectListItem //{ //    Value = c.ID.ToString(), //    Text = c.business//}).ToList();              
+            // Encrypt sensitive fields
+            model.Info.name = AesEncryptionHelper.Encrypt(model.Info.name);
+            model.Info.Gender = AesEncryptionHelper.Encrypt(model.Info.Gender);
+
+
             _context.infoo.Add(model.Info);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Dashboard));
-
-
         }
 
         public IActionResult Edit()
@@ -275,9 +283,7 @@ else
 
 
           
-            //if (info != null)
             {
-                //    _context.info.Remove(info);
                 _context.infoo.Update(info);
 
                 await _context.SaveChangesAsync();
@@ -286,27 +292,10 @@ else
                 {
                     
                     info.IsDeleted = true;
-                }
-                //    if (info != null)
-                //{
-                //    info.Date = 
-                //}
-                //if (info != null)
-                //{
-                //    info.Date = DateTime.Now;
-                //    }
-                //else
-                //{
-                //    info.Date = nu
-                //}
+                }   
                 }
                 return RedirectToAction(nameof(Dashboard));
             }
-        
-        //private bool infoExists(int id)
-        //{
-        //    return _context.info.Any(e => e.ID == id);
-        //}
         
             public IActionResult Candidates()
         {
